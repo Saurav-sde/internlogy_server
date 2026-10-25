@@ -1,0 +1,108 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHERS
+  PREFER_NOT_TO_SAY
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  DROPPED
+  SUSPENDED
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String? 
+  googleId String? @unique
+  role Role @default(USER)
+
+  // Personal Details
+  dob DateTime? @db.Date
+  phoneNo String? 
+  whatsAppNo String?
+  gender Gender?
+
+  // Education Details
+  university String?
+  college String?
+  course String?
+  graduationYear Int?
+  currentYear Int?
+  registrationId String? 
+
+  enrollments Enrollment[]
+
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+}
+
+
+
+model Program {
+  id Int @id @default(autoincrement())
+  title String
+  fees Int 
+  overview String
+  durationInWeeks Int 
+
+  modules Module[]
+  enrollments Enrollment[]
+
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+}
+
+model Module {
+  id Int @id @default(autoincrement())
+  programId Int
+  title String
+  order Int
+
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+
+  program Program @relation(fields: [programId], references: [id])
+  @@unique([programId, order])
+}
+
+model Enrollment {
+  id Int @id @default(autoincrement())
+  programId Int
+  userId Int
+
+  enrollmentStatus EnrollmentStatus @default(ACTIVE)
+  certificateGenerated Boolean @default(false)
+  programProgress Int @default(0)
+
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+
+  program Program @relation(fields: [programId], references: [id])
+  student User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, programId])
+}
+
+

@@ -1,0 +1,49 @@
+# ---> Node.js and NPM packages
+node_modules/
+
+# ---> TypeScript Compiler Output
+dist/
+*.tsbuildinfo
+
+# ---> Prisma generated client (regenerate with `npx prisma generate`)
+src/generated/
+
+# ---> IDE - Visual Studio Code
+.vscode/
+*.code-workspace
+
+# ---> IDE - WebStorm, IntelliJ
+.idea/
+
+# ---> MacOS
+.DS_Store
+
+# ---> Logs
+logs/
+*.log
+npm-debug.log*
+
+# ---> Environment variables (keep .env.example committed if you add one)
+.env
+.env.*
+!.env.example
+
+# ---> Local Claude Code settings
+.claude/settings.local.json
+
+# ---> Dependency directories
+bower_components/
+
+# ---> Test and coverage output
+coverage/
+
+# ---> Temporary and editor swap files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ---> Operating System generated files
+ehthumbs.db
+Thumbs.db
